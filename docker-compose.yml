@@ -1,0 +1,29 @@
+version: '3'
+services:
+  db:
+    image: postgres:12.11
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: mydatabase
+    networks:
+      mynetwork:
+        ipv4_address: 172.16.238.10
+
+  web:
+    build: .
+    depends_on:
+      - db
+    networks:
+      mynetwork:
+        ipv4_address: 172.16.238.11
+
+networks:
+  mynetwork:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.16.238.0/24
+
+#docker-compose up
+#docker-compose down
